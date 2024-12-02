@@ -1,7 +1,7 @@
 NAME=clash-exporter
 VERSION=$(shell git describe --tags --always)
 
-releases: darwin-amd64 darwin-arm64 linux-amd64 linux-arm64 linux-armv6 linux-armv7
+releases: darwin-amd64 darwin-arm64 linux-amd64 linux-arm64 linux-armv6 linux-armv7 windows-amd64
 
 GOBUILD = CGO_ENABLED=0 go build -trimpath -ldflags "-extldflags=-static"
 
@@ -22,6 +22,9 @@ linux-armv6:
 	tar czf $(NAME)-${VERSION}-$@.tar.gz $(NAME)-${VERSION}-$@
 linux-armv7:
 	GOOS=linux GOARCH=arm GOARM=7 $(GOBUILD) -o $(NAME)-${VERSION}-$@
+	tar czf $(NAME)-${VERSION}-$@.tar.gz $(NAME)-${VERSION}-$@
+windows-amd64:
+	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(NAME)-${VERSION}-$@
 	tar czf $(NAME)-${VERSION}-$@.tar.gz $(NAME)-${VERSION}-$@
 
 clean:
